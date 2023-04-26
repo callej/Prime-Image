@@ -4,6 +4,8 @@ import java.io.File
 import java.lang.Exception
 import javax.imageio.ImageIO
 
+val primes = File(".\\src\\main\\kotlin\\primeList.txt").readText().split(",").map { it.trim().toInt() }.toSet()
+
 fun inputColor(msg: String): Color {
     println(msg)
     val red = print("Input the value for red (0 - 255): ").run { readln().toInt().coerceIn(0..255) }
@@ -23,29 +25,22 @@ fun inputDimentions(msg: String): Pair<Int, Int> {
     }
 }
 
-fun primeList(limit: Int): List<Int> {
-    val primes = mutableListOf<Int>()
-    for (testNumber in 2..limit) {
-        var isPrime = true
-        for (prime in primes) {
-            if (prime * prime > testNumber) break
-            if (testNumber % prime == 0) {
-                isPrime = false
-                break
-            }
-        }
-        if (isPrime) {
-            primes.add(testNumber)
-        }
-    }
-    return primes
-}
-
 fun main() {
     val bgColor = inputColor("Input the background color (RGB)")
     val primeColor = inputColor("Input the color for the prime numbers (RGB)")
-    val (width, height) = inputDimentions("Input the image dimensions in pixels (width, height): ")
-    val primes = primeList(width * height)
+    val width: Int
+    val height: Int
+    while (true) {
+        val (w, h) = inputDimentions("Input the image dimensions in pixels (width, height): ")
+        if (w * h > primes.last()) {
+            println("Too big image!\n width * height cannot be bigger than ${primes.last()}")
+            println("You have provided: width = $w * height = $h = ${w * h}\n")
+        } else {
+            width = w
+            height = h
+            break
+        }
+    }
     val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
     for (y in 0 until image.height) {
         for (x in 0 until image.width) {
