@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage
 import java.awt.Color
 import java.io.File
+import java.lang.Exception
 import javax.imageio.ImageIO
 
 fun inputColor(msg: String): Color {
@@ -12,7 +13,14 @@ fun inputColor(msg: String): Color {
 }
 
 fun inputDimentions(msg: String): Pair<Int, Int> {
-    return print(msg).run { readln().split(",").map { it.trim().toInt() } }.run { Pair(this[0], this[1]) }
+    while (true) {
+        try {
+            return print(msg).run { readln().split(",").map { it.trim().toInt() } }.run { Pair(this[0], this[1]) }
+        } catch (e: Exception) {
+            println("\nIncorrect input!\nError Message:")
+            println("${e.message}\n")
+        }
+    }
 }
 
 fun primeList(limit: Int): List<Int> {
