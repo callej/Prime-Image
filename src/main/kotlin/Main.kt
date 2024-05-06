@@ -51,5 +51,5 @@ fun main() {
             }
         }
     }
-    ImageIO.write(image, "png", File("PrimeImage.png"))
+    ImageIO.write(image, "png", File("PrimeImage2.png"))
 }
